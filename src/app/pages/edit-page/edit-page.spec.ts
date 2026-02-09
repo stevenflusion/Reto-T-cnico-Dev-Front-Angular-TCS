@@ -1,12 +1,13 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { EditPage } from './edit-page';
 import { ProductService } from '../../services/product';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 
 describe('EditPage', () => {
   let component: EditPage;
   let productService: jest.Mocked<ProductService>;
+  let router: jest.Mocked<Router>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,19 +35,18 @@ describe('EditPage', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              paramMap: {
-                get: () => '1',
-              },
-            },
-          },
+          useValue: { snapshot: { paramMap: { get: () => '1' } } },
+        },
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
         },
       ],
     });
 
     component = TestBed.inject(EditPage);
     productService = TestBed.inject(ProductService) as jest.Mocked<ProductService>;
+    router = TestBed.inject(Router) as jest.Mocked<Router>;
   });
 
   it('should load product id from route', () => {
@@ -54,12 +54,10 @@ describe('EditPage', () => {
     expect(component.productId()).toBe('1');
   });
 
-  it('should call editProduct and refetch on success', () => {
-    productService.editProduct.mockReturnValue(
-      of({ success: true })
-    );
+  it('should call editProduct and refetch on success', fakeAsync(() => {
+    productService.editProduct.mockReturnValue(of({ message: 'Product updated successfully' }));
 
-    const formValue: any = {
+    const formValue = {
       id: '1',
       name: 'Updated',
       description: 'Updated desc',
@@ -70,8 +68,10 @@ describe('EditPage', () => {
 
     component.productId.set('1');
     component.editProduct(formValue);
+    tick(2500);
 
-    expect(productService.editProduct).toHaveBeenCalled();
+    expect(productService.editProduct).toHaveBeenCalledWith('1', formValue);
     expect(productService.refetchProducts).toHaveBeenCalled();
-  });
+    expect(component.successProduct()).toBe(false);
+  }));
 });

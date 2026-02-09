@@ -1,7 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { CreatePage } from './create-page';
 import { ProductService } from '../../services/product';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 describe('CreatePage', () => {
   let component: CreatePage;
@@ -25,12 +25,10 @@ describe('CreatePage', () => {
     productService = TestBed.inject(ProductService) as jest.Mocked<ProductService>;
   });
 
-  it('should call createProduct and refetch on success', () => {
-    productService.createProduct.mockReturnValue(
-      of({ success: true })
-    );
+  it('should call createProduct and refetch on success', fakeAsync(() => {
+    productService.createProduct.mockReturnValue(of({ message: 'Product added successfully' }));
 
-    const formValue: any = {
+    const formValue = {
       id: 'abc',
       name: 'Test',
       description: 'Valid description here',
@@ -40,8 +38,19 @@ describe('CreatePage', () => {
     };
 
     component.createProduct(formValue);
+    tick(2500); // simula los setTimeout
 
     expect(productService.createProduct).toHaveBeenCalledWith(formValue);
     expect(productService.refetchProducts).toHaveBeenCalled();
+    expect(component.successProduct()).toBe(false); // después del timeout
+  }));
+
+  it('should set errorProduct to true on 400 error', () => {
+    const error = { status: 400 } as any;
+    productService.createProduct.mockReturnValue(throwError(() => error));
+
+    component.createProduct({} as any);
+
+    expect(component.errorProduct()).toBe(true);
   });
 });
