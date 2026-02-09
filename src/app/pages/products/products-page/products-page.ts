@@ -40,7 +40,7 @@ export class ProductsPage {
   confirmDelete() {
     const product = this.selectedProduct();
     if (!product) return;
-
+    
     this.store.deleteProduct(product.id).subscribe(() => {
       this.showDeleteModal.set(false);
     });

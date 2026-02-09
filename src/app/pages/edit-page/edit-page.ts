@@ -7,6 +7,7 @@ import {
   ProductFormValue,
 } from '../../interfaces/product.interface';
 import { Form } from '../../components/form/form';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-page',
@@ -55,8 +56,7 @@ export class EditPage {
 
     this.productService.editProduct(this.productId(), productToSend).subscribe({
       next: (res: any) => {
-        console.log(res);
-        if (res.success === true) {
+        if (res.message === 'Product updated successfully') {
           this.successProduct.set(true);
           setTimeout(() => {
             this.successProduct.set(false);
@@ -65,15 +65,8 @@ export class EditPage {
             this.navegate.navigate(['/']);
           }, 2500);
           this.productService.refetchProducts();
-        } else {
-          console.log('error');
-          this.closeModaError();
-          this.errorProduct.set(true);
         }
-      },
-      complete: () => {
-        //desaparecer el mensaje
-      },
+      }
     });
   }
 }

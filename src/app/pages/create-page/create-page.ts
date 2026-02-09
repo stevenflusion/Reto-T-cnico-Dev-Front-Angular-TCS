@@ -3,6 +3,7 @@ import { Product, ProductFormValue } from '../../interfaces/product.interface';
 import { ProductService } from '../../services/product';
 import { Form } from '../../components/form/form';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-page',
@@ -33,7 +34,7 @@ export class CreatePage {
 
     this.productService.createProduct(productToSend).subscribe({
       next: (response: any) => {
-        if (response.success === true) {
+        if (response.message === "Product added successfully") {
           this.successProduct.set(true);
           setTimeout(() => {
             this.successProduct.set(false);
@@ -42,12 +43,13 @@ export class CreatePage {
             this.route.navigate(['/']);
           }, 2500);
           this.productService.refetchProducts();
-        } else {
-          console.log('error');
+        } 
+      }, error: (error: HttpErrorResponse) => {
+        if(error.status === 400) {
           this.closeModaError()
           this.errorProduct.set(true);
         }
-      },
+      }
     });
   }
 }
