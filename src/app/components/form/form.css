@@ -1,0 +1,175 @@
+.page-container {
+  margin-top: 30px;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+.btn-home {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.btn-home img {
+  width: 24px;
+  height: 24px;
+}
+
+
+form {
+  width: 650px;
+  height: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.header-form {
+  display: grid;
+  padding-bottom: 15px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.line-separation {
+  width: 100%;
+  height: 1px;
+  background-color: #aeaeb0;
+}
+
+.form-create-product {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.box-input {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  padding-top: 25px;
+}
+
+label {
+  font-weight: 500;
+  font-size: smaller;
+  margin-bottom: 0.25rem;
+  color: #000;
+}
+
+.input-error {
+  border: 1px solid red !important;
+}
+
+.input-error:focus {
+  outline: none !important;
+}
+
+.ms-input {
+  padding-top: 6px;
+  font-size: 12px;
+}
+
+.ms-input {
+  color: red;
+  font-size: 12px;
+}
+
+input[type='text'],
+input[type='url'],
+input[type='date'] {
+  width: 100%;
+  max-width: 310px;
+  height: 44px;
+  padding: 0 10px;
+  border: 1px solid #bababc;
+  border-radius: 4px;
+  color: #97979a;
+}
+
+input:focus {
+  outline-color: #717172;
+  outline-style: groove;
+  color: #000;
+}
+
+.divButtons {
+  padding: 40px;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+button[type='button'] {
+  width: 110px;
+  height: 44px;
+  background: #ffe84f;
+  color: #291616;
+  border: 1px solid #ffe84f;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  align-self: start;
+  transition: all 0.3s ease-in-out;
+}
+
+button[type='button']:hover {
+  background: #ffd800;
+  border-color: #ffd800;
+}
+
+#reset {
+  width: 110px;
+  height: 44px;
+  background: #eaecf2;
+  color: #291616;
+  border: 1px solid #eaecf2;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  align-self: start;
+  transition: all 0.3s ease-in-out;
+}
+
+#reset:hover {
+  background: #b5b6b6;
+  border-color: #b5b6b6;
+}
+
+.form-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  margin-bottom: 30px;
+  color: #ec3e3e;
+}
+
+@media (max-width: 768px) {
+  form {
+    width: 100%;
+  }
+  .form-create-product {
+    grid-template-columns: 1fr;
+  }
+
+  input[type='text'],
+  input[type='url'],
+  input[type='date'] {
+    max-width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+
+}

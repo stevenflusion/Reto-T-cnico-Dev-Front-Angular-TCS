@@ -1,0 +1,23 @@
+@if (product(); as prod) {
+  <app-form (submitForm)="editProduct($event)" [product]="prod" />
+}
+
+@if (successProduct()) {
+  <div class="modal">
+    <div class="modal-container">
+      <img class="img-advert" src="/icons/success.png" alt="" />
+      <h2 class="modal-title">Producto Editado!</h2>
+      <p class="modal-subtitle">Se ha editado el producto correctamente.</p>
+    </div>
+  </div>
+} @else if (errorProduct()) {
+  <div class="modal">
+    <div class="modal-container">
+      <img class="img-advert" src="/icons/advertencia.png" alt="" />
+      <h2 class="modal-title">Error!</h2>
+      <p class="modal-subtitle">No existe un producto.</p>
+    </div>
+
+    <button (click)="closeModaError()" class="closeModal">❌</button>
+  </div>
+}

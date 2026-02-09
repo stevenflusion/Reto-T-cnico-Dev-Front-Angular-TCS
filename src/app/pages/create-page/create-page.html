@@ -1,0 +1,23 @@
+<app-form (submitForm)="createProduct($event)" />
+
+<p class="msg-success">Mensaje de Exito</p>
+
+@if (successProduct()) {
+  <div class="modal">
+    <div class="modal-container">
+      <img class="img-advert" src="/icons/success.png" alt="" />
+      <h2 class="modal-title">Nuevo Producto!</h2>
+      <p class="modal-subtitle">Se ha creado el producto correctamente.</p>
+    </div>
+  </div>
+} @else if (errorProduct()) {
+  <div class="modal">
+    <div class="modal-container">
+      <img class="img-advert" src="/icons/advertencia.png" alt="" />
+      <h2 class="modal-title">Error!</h2>
+      <p class="modal-subtitle">Ya existe un producto con el mismo ID.</p>
+    </div>
+
+    <button (click)="closeModaError()" class="closeModal">❌</button>
+  </div>
+}

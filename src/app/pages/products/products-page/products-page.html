@@ -1,0 +1,104 @@
+<div class="page-container-home">
+  <div class="products-header">
+    <input
+      (input)="onSearchChange($event)"
+      type="text"
+      class="btn-search"
+      placeholder="Buscar..."
+    />
+
+    <a routerLink="/products/create" class="btn-create">Agregar</a>
+  </div>
+
+  <div class="products-container">
+    @if (store.isLoading()) {
+      <div class="skeleton-table">
+        <div class="skeleton-row" *ngFor="let i of [1, 2, 3, 4, 5]"></div>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>Logo</th>
+              <th>Nombre del producto</th>
+              <th>
+                Descripción
+                <span class="info-icon" title="Información del producto">ℹ</span>
+              </th>
+              <th>
+                Fecha de liberación
+                <span class="info-icon" title="Fecha de lanzamiento">ℹ</span>
+              </th>
+              <th>
+                Fecha de reestructuración
+                <span class="info-icon" title="Fecha de última modificación">ℹ</span>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <div *ngIf="store.isLoading()">Cargando...</div>
+
+            <tr *ngFor="let product of store.paginatedProducts()">
+              <td><div class="logo-placeholder">JG</div></td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.description.slice(0, 30).concat('...') }}</td>
+              <td>{{ product.date_release }}</td>
+              <td>{{ product.date_revision }}</td>
+              <td>
+                <div class="menu-container">
+                  <button class="btn-menu" aria-label="Menú de opciones">⋮</button>
+                  <div class="menu-dropdown">
+                    <a [routerLink]="['/products/edit', product.id]" class="menu-item text-link"
+                      >Editar</a
+                    >
+                    <button
+                      (click)="openDeleteModal(product)"
+                      href="#"
+                      class="menu-item text-danger"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    }
+    <div class="table-footer">
+      @if (store.filteredProducts().length === 0) {
+        <span class="results-info">No existe productos disponibles</span>
+      } @else {
+        <span class="results-info"> {{ store.paginatedProducts().length }} Resultados </span>
+      }
+
+      @if (store.searchTerm().length > 0) {
+      } @else {
+        <select
+          (change)="onItemsPerPageChange($event)"
+          id="items-per-page"
+          class="select-pagination"
+        >
+          @if (store.filteredProducts().length === 0) {
+            <option value="">0</option>
+          } @else {
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+          }
+        </select>
+      }
+    </div>
+  </div>
+</div>
+@if (showDeleteModal()) {
+  <app-modals
+    *ngIf="showDeleteModal()"
+    [productName]="selectedProduct()?.name ?? ''"
+    (cancel)="closeDeleteModal()"
+    (confirm)="confirmDelete()"
+  />
+}

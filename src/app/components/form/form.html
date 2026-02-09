@@ -1,0 +1,152 @@
+<a routerLink="/products" class="btn-home"><img src="/icons/home.png" alt="" /></a>
+
+<div class="page-container">
+  <form [formGroup]="productForm">
+    <div class="header-form">
+      <h2>
+        @if (this.product) {
+          Editar Producto
+        } @else {
+          Formulario de Registro
+        }
+      </h2>
+      <div class="line-separation"></div>
+    </div>
+
+    <div class="form-create-product">
+      <div class="box-input">
+        <label for="id">ID</label>
+        <input
+          type="text"
+          formControlName="id"
+          [class.input-error]="productForm.get('id')?.invalid && productForm.get('id')?.dirty"
+        />
+
+        @if (productForm.get('id')?.invalid && productForm.get('id')?.dirty) {
+          <span class="ms-input">
+            @if (productForm.get('id')?.errors?.['required']) {
+              El ID es obligatorio
+            }
+
+            @if (productForm.get('id')?.errors?.['minlength']) {
+              El ID debe tener al menos 3 caracteres
+            }
+
+            @if (productForm.get('id')?.errors?.['maxlength']) {
+              El ID no puede tener más de 10 caracteres
+            }
+          </span>
+        }
+      </div>
+
+      <div class="box-input">
+        <label for="name">Nombre</label>
+        <input
+          formControlName="name"
+          [class.input-error]="productForm.get('name')?.invalid && productForm.get('name')?.dirty"
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Tarjeta Crédito"
+        />
+        @if (productForm.get('name')?.invalid && productForm.get('name')?.dirty) {
+          <span class="ms-input">
+            @if (productForm.get('name')?.errors?.['required']) {
+              El Nombre es obligatorio
+            }
+
+            @if (productForm.get('name')?.errors?.['minlength']) {
+              El Nombre debe tener al menos 5 caracteres
+            }
+
+            @if (productForm.get('name')?.errors?.['maxlength']) {
+              El ID no puede tener más de 100 caracteres
+            }
+          </span>
+        }
+      </div>
+
+      <div class="box-input">
+        <label for="description">Descripción</label>
+        <input
+          formControlName="description"
+          [class.input-error]="
+            productForm.get('description')?.invalid && productForm.get('description')?.dirty
+          "
+          id="description"
+          name="description"
+          type="text"
+          placeholder="Descripción del producto"
+        />
+        @if (productForm.get('description')?.invalid && productForm.get('description')?.dirty) {
+          <span class="ms-input">
+            @if (productForm.get('description')?.errors?.['required']) {
+              La Descripción es obligatorio
+            }
+
+            @if (productForm.get('description')?.errors?.['minlength']) {
+              La Descripción debe tener al menos 10 caracteres
+            }
+
+            @if (productForm.get('description')?.errors?.['maxlength']) {
+              El ID no puede tener más de 200 caracteres
+            }
+          </span>
+        }
+      </div>
+
+      <div class="box-input">
+        <label for="logo">Logo</label>
+        <input
+          formControlName="logo"
+          [class.input-error]="productForm.get('logo')?.invalid && productForm.get('logo')?.dirty"
+          id="logo"
+          name="logo"
+          type="url"
+          placeholder="Logo"
+        />
+        @if (productForm.get('logo')?.invalid && productForm.get('logo')?.dirty) {
+          <span class="ms-input">
+            @if (productForm.get('logo')?.errors?.['required']) {
+              La URL del Logo es obligatorio
+            }
+          </span>
+        }
+      </div>
+
+      <div class="box-input">
+        <label for="date_released">Fecha Liberación</label>
+        <input
+          formControlName="date_release"
+          [class.input-error]="
+            productForm.get('date_release')?.invalid && productForm.get('date_release')?.dirty
+          "
+          type="date"
+        />
+        @if (
+          productForm.get('date_release')?.errors?.['minToday'] &&
+          productForm.get('date_release')?.dirty
+        ) {
+          <span class="ms-input"> La fecha debe ser hoy o posterior </span>
+        }
+      </div>
+
+      <div class="box-input">
+        <label for="date_revision">Fecha Revisión</label>
+        <input
+          formControlName="date_revision"
+          id="date_revision"
+          name="date_revision"
+          type="date"
+        />
+      </div>
+    </div>
+    <div class="divButtons">
+      <button id="reset" type="button" (click)="resetForm()">Reiniciar</button>
+      <button type="button" (click)="functionToPerform()">Agregar</button>
+    </div>
+    @if (showGeneralError()) {
+      <span class="form-error">⚠️ Todos los campos deben ser completados correctamente</span>
+    }
+  </form>
+</div>

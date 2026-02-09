@@ -1,0 +1,11 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <img class="img-advert" src="/icons/advertencia.png" alt="">
+    <h2 class="modal-title">{{ productName || 'Producto' }}</h2>
+    <p class="modal-subtitle">¿Estás seguro de eliminar el producto?</p>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn modal-btn-confirm" (click)="onConfirmDelete()">Eliminar</button>
+      <button type="button" class="modal-btn modal-btn-cancel" (click)="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
